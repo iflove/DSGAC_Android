@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">唐氏筛查孕周计算助手</string>
+    <string name="action_settings">设置</string>
+    <string name="please_enter_your_relevant_information">请录入你的相关信息</string>
+    <string name="the_way_of_conception">受孕方式：</string>
+    <string name="gestational_age_type">孕周类型：</string>
+    <string name="bpd_date">BPD日期：</string>
+    <string name="bpd_len">BPD长度：</string>
+    <string name="crl_date">CRL日期：</string>
+    <string name="crl_len">CRL长度：</string>
+    <string name="btn_cal">计算</string>
+    <string name="to_implant_date">胎儿植入日期：</string>
+
+</resources>

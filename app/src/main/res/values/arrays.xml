@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tabs">
+        <item>首页</item>
+        <item>意见反馈</item>
+    </string-array>
+
+    <string-array name="conceive_type">
+        <item>自然受孕</item>
+        <item>辅助受孕</item>
+    </string-array>
+
+    <string-array name="gestational_age_type">
+        <item>BPD</item>
+        <item>CRL</item>
+    </string-array>
+</resources>
