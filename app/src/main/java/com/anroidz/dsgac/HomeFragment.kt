@@ -2,6 +2,7 @@ package com.anroidz.dsgac
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -118,7 +119,10 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
 
             calBtn.setOnClickListener {
                 //计算业务
-
+                if (selectDialog.text.isEmpty()){
+                    return@setOnClickListener
+                }
+                Log.d(TAG, "onViewCreated: ")
             }
         }
     }
