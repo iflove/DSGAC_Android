@@ -1,4 +1,4 @@
-package com.anroidz.dsgac.algorithm
+package com.anroidz.dsgac.algorithm.model
 
 /**
  * 作用描述: 孕周
