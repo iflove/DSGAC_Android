@@ -1,6 +1,7 @@
 package com.anroidz.dsgac.algorithm.utils
 
 import com.anroidz.dsgac.algorithm.model.GestationalWeeks
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
@@ -35,11 +36,11 @@ object TimeUtils {
         return addDaysToGestationalWeeks(gestationalWeeks, getDayDifference(curStandardDate, inspectDate).toInt())
     }
 
-    fun calculateGestationalWeekDate(calCurGestationalWeek: GestationalWeeks, curStandardDate: Date): Date {
+    fun calculateGestationalWeekDate(gestationalWeek: GestationalWeeks, curStandardDate: Date): Date {
         val calendar = Calendar.getInstance()
         calendar.time = curStandardDate
-        calendar.add(Calendar.WEEK_OF_YEAR, calCurGestationalWeek.week)
-        calendar.add(Calendar.DAY_OF_YEAR, calCurGestationalWeek.day)
+        calendar.add(Calendar.WEEK_OF_YEAR, gestationalWeek.week)
+        calendar.add(Calendar.DAY_OF_YEAR, gestationalWeek.day)
         return calendar.time
     }
 
@@ -47,6 +48,28 @@ object TimeUtils {
         val calendar = Calendar.getInstance()
         calendar.set(year, monthOfYear - 1, dayOfMonth) // 注意月份是从 0 开始的，所以需要减去 1
         return calendar.time
+    }
+
+    fun getDiffDays(maxGestationalWeek: GestationalWeeks, calCurGestationalWeek: GestationalWeeks): Int {
+        val days1 = maxGestationalWeek.week * 7 + (maxGestationalWeek.day + 1) // 将孕周转换为总天数
+        val days2 = calCurGestationalWeek.week * 7 + (calCurGestationalWeek.day + 1)// 将孕周转换为总天数
+        return days1 - days2
+    }
+    fun calculateWeeksDifference(weeks1: GestationalWeeks, weeks2: GestationalWeeks): GestationalWeeks {
+        val days1 = weeks1.week * 7 + weeks1.day // 将孕周转换为总天数
+        val days2 = weeks2.week * 7 + weeks2.day // 将孕周转换为总天数
+
+        val totalDaysDifference = days1 - days2 // 计算总天数差异
+
+        val newWeeks = totalDaysDifference / 7 // 计算新的孕周（周）
+        val newDays = totalDaysDifference % 7 // 计算新的孕周（天）
+
+        return GestationalWeeks(newWeeks, newDays) // 返回新的 GestationalWeeks 对象
+    }
+
+    fun formatDate(date: Date): String {
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        return format.format(date)
     }
 
 }

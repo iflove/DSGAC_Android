@@ -19,7 +19,7 @@ class CRLAlgorithm : ReferenceTableAlgorithm() {
         if (lenSize == -1) {
             throw RuntimeException("CRL长度必填")
         }
-        val gestationalWeeks = CsvData.bpdData[lenSize] ?: throw RuntimeException("CRL长度不合法")
+        val gestationalWeeks = CsvData.crlData[lenSize] ?: throw RuntimeException("CRL长度不合法")
         val inspectDate = getInspectDate()
         val curStandardDate = getCurStandardDate()
 

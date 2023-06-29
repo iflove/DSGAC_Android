@@ -10,7 +10,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/please_enter_your_relevant_information" />
+        android:text="@string/please_enter_your_relevant_information"
+        android:textSize="@dimen/text_size" />
 
     <LinearLayout
         android:id="@+id/conceive_type_ll"
@@ -22,7 +23,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/the_way_of_conception" />
+            android:text="@string/the_way_of_conception"
+            android:textSize="@dimen/text_size" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/conceive_type_sp"
@@ -41,7 +43,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gestational_age_type" />
+            android:text="@string/gestational_age_type"
+            android:textSize="@dimen/text_size" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/gestational_age_type_sp"
@@ -62,7 +65,8 @@
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bpd_date" />
+            android:text="@string/bpd_date"
+            android:textSize="@dimen/text_size" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/select_dialog"
@@ -71,10 +75,11 @@
             android:background="@drawable/date_bg"
             android:drawableEnd="@drawable/date_bg"
             android:hint="请选择日期"
-            android:paddingLeft="5dp"
+            android:paddingStart="10dp"
             android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp" />
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textSize="@dimen/text_size" />
 
     </LinearLayout>
 
@@ -89,7 +94,8 @@
             android:id="@+id/lenTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bpd_len" />
+            android:text="@string/bpd_len"
+            android:textSize="@dimen/text_size" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/lenEt"
@@ -102,12 +108,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="mm" />
+            android:text="mm"
+            android:textSize="@dimen/text_size" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/calBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_cal" />
+        android:text="@string/btn_cal"
+        android:textSize="@dimen/text_size" />
+
+    <TextView
+        android:id="@+id/calResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text=""
+        android:textSize="@dimen/text_size" />
 </LinearLayout>

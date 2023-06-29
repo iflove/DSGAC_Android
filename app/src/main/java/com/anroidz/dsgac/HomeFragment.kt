@@ -18,7 +18,9 @@ import com.anroidz.dsgac.base.isVisible
 import com.anroidz.dsgac.bean.ConceiveType
 import com.anroidz.dsgac.bean.GestationalAgeType
 import com.anroidz.dsgac.databinding.FragmentHomeBinding
+import java.lang.StringBuilder
 import java.util.Calendar
+import java.util.Date
 
 
 /**
@@ -39,6 +41,7 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
     private var conceiveType: ConceiveType = ConceiveType.NATURE
 
     private var alg: IAlgorithm = BPDAlgorithm()
+    private var inspectDate: Date? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -94,6 +97,8 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                     when (position) {
                         GestationalAgeType.BPD.ordinal -> {
                             gestationalAgeType = GestationalAgeType.BPD
+                            //切换算法
+                            alg = BPDAlgorithm()
                             //变化文本
                             lenTv.text = ResUtil.getString(R.string.bpd_len)
                             dateTv.text = ResUtil.getString(R.string.bpd_date)
@@ -101,6 +106,8 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
 
                         GestationalAgeType.CRL.ordinal -> {
                             gestationalAgeType = GestationalAgeType.CRL
+                            //切换算法
+                            alg = CRLAlgorithm()
                             //变化文本
                             lenTv.text = ResUtil.getString(R.string.crl_len)
                             dateTv.text = ResUtil.getString(R.string.crl_date)
@@ -123,7 +130,7 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                             Toast.LENGTH_SHORT
                         ).show()
                         selectDialog.text = "${year}-${monthOfYear + 1}-${dayOfMonth}"
-                        alg.setInspectDate(TimeUtils.createDate(year, monthOfYear + 1, dayOfMonth))
+                        inspectDate = TimeUtils.createDate(year, monthOfYear + 1, dayOfMonth)
                     }, cale1.get(Calendar.YEAR), cale1.get(Calendar.MONTH), cale1.get(Calendar.DAY_OF_MONTH)
                 )
 
@@ -134,7 +141,7 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
 
             calBtn.setOnClickListener {
                 //计算业务
-                if (selectDialog.text.isEmpty()) {
+                if (inspectDate == null || selectDialog.text.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
                         "请选择日期",
@@ -142,6 +149,10 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                     ).show()
                     return@setOnClickListener
                 }
+                mViewBinding.calResult.text = ""
+                mViewBinding.calResult.setTextColor(ResUtil.getColor(R.color.black))
+                alg.setInspectDate(inspectDate!!)
+                //当前孕周算法
                 when (alg) {
                     is ReferenceTableAlgorithm -> {
                         if (lenEt.text.toString().isEmpty()) {
@@ -153,29 +164,97 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                             return@setOnClickListener
                         }
                         (alg as ReferenceTableAlgorithm).lenSize = lenEt.text.toString().toInt()
-                        try {
-                            val curGestationalWeek = alg.calCurGestationalWeek()
-                            Log.i(TAG, "curGestationalWeek=$curGestationalWeek")
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            return@setOnClickListener
-                        }
+                        calAndShow()
                     }
 
                     is AuxiliaryAlgorithm -> {
-                        try {
-                            val curGestationalWeek = alg.calCurGestationalWeek()
-                            Log.i(TAG, "curGestationalWeek=$curGestationalWeek")
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            return@setOnClickListener
-                        }
+                        calAndShow()
                     }
 
                     else -> {}
                 }
 
             }
+        }
+    }
+
+    private fun calAndShow() {
+        try {
+            val sb = StringBuilder()
+            val curGestationalWeek = alg.calCurGestationalWeek()
+            Log.i(TAG, "curGestationalWeek=$curGestationalWeek")
+            sb.append("你当前的孕周为${curGestationalWeek.week}周${curGestationalWeek.day}天\n")
+            //早期范围检测
+            val earlyGestationalWeeks = alg.isWithinEarlyGestationalWeeks(curGestationalWeek)
+            when (earlyGestationalWeeks.first) {
+                1 -> {
+                    //小于早期孕周
+                    sb.append("你当前的孕周${earlyGestationalWeeks.second} \n")
+                    val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.earlyGestationalWeeksStart, curGestationalWeek)
+                    val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                    val formatDate = TimeUtils.formatDate(calculateGestationalWeekDate)
+                    sb.append("${TimeUtils.getDiffDays(alg.earlyGestationalWeeksStart, curGestationalWeek)}天后抽血，${formatDate}开始抽血 \n")
+                }
+
+                2 -> {
+                    //大于早期孕周 (中期)
+                    val midtermGestationalWeeks = alg.isWithinMidtermGestationalWeeks(curGestationalWeek)
+                    when (midtermGestationalWeeks.first) {
+                        1 -> {
+                            //小于中期孕周
+                            sb.append("你当前的孕周${earlyGestationalWeeks.second} \n")
+                            val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.midtermGestationalWeeksStart, curGestationalWeek)
+                            val calculateGestationalWeekDate =
+                                TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                            val formatDate = TimeUtils.formatDate(calculateGestationalWeekDate)
+                            sb.append(
+                                "${
+                                    TimeUtils.getDiffDays(
+                                        alg.midtermGestationalWeeksStart,
+                                        curGestationalWeek
+                                    )
+                                }天后抽血，${formatDate}开始抽血 \n"
+                            )
+                        }
+
+                        2 -> {
+                            //大于中期孕周
+                            sb.append("不在系统可接受的范围内 应为15周0天--20周6天应间的值\n")
+                            sb.append("你已不符合检测早孕期唐氏筛查! 已超期\n")
+                        }
+
+                        3 -> {
+                            //在中期孕周中
+                            val startDateText = TimeUtils.formatDate(alg.getCurStandardDate())
+                            val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.midtermGestationalWeeksEnd, curGestationalWeek)
+                            val calculateGestationalWeekDate =
+                                TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                            val endDateText = TimeUtils.formatDate(calculateGestationalWeekDate)
+                            sb.append("推荐中期唐氏的采血时间为${startDateText}至${endDateText} \n")
+                        }
+
+                        else -> {}
+                    }
+                    //大于早期孕周 (中期)
+                }
+
+                3 -> {
+                    //在早期孕周中
+                    val startDateText = TimeUtils.formatDate(alg.getCurStandardDate())
+                    val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.earlyGestationalWeeksEnd, curGestationalWeek)
+                    val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                    val endDateText = TimeUtils.formatDate(calculateGestationalWeekDate)
+                    sb.append("推荐早期唐氏的采血时间为${startDateText}至${endDateText} \n")
+                }
+
+                else -> {}
+            }
+            mViewBinding.calResult.text = sb.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            mViewBinding.calResult.setTextColor(ResUtil.getColor(R.color.red))
+            mViewBinding.calResult.text = e.message
+            return
         }
     }
 

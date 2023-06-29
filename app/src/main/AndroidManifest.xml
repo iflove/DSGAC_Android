@@ -30,8 +30,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-
-            android:theme="@style/Theme.DSGAC">
+            android:theme="@style/Theme.DSGAC"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
     </application>
