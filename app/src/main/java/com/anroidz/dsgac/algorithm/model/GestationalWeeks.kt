@@ -14,4 +14,10 @@ data class GestationalWeeks(
     val week: Int,
     //孕周（天）0-6 , 满6进1
     val day: Int,
-)
+
+
+) {
+    override fun toString(): String {
+        return "GestationalWeeks(week=$week, day=$day)"
+    }
+}

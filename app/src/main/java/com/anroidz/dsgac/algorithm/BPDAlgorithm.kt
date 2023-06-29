@@ -2,6 +2,7 @@ package com.anroidz.dsgac.algorithm
 
 import com.anroidz.dsgac.algorithm.datasource.CsvData
 import com.anroidz.dsgac.algorithm.model.GestationalWeeks
+import com.anroidz.dsgac.algorithm.utils.TimeUtils
 
 /**
  * 作用描述:
@@ -16,8 +17,12 @@ class BPDAlgorithm : ReferenceTableAlgorithm() {
         if (lenSize == -1) {
             throw RuntimeException("BPD长度必填")
         }
-        val data = CsvData.bpdData[lenSize] ?: throw RuntimeException("BPD长度不合法")
+        val gestationalWeeks = CsvData.bpdData[lenSize] ?: throw RuntimeException("BPD长度不合法")
+        val inspectDate = getInspectDate()
+        val curStandardDate = getCurStandardDate()
 
-        return data
+        return TimeUtils.calCurGestationalWeek(gestationalWeeks, curStandardDate, inspectDate)
     }
+
+
 }

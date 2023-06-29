@@ -59,4 +59,34 @@ interface IAlgorithm {
      * 计算当前孕周
      */
     fun calCurGestationalWeek(): GestationalWeeks
+
+    fun isWithinEarlyGestationalWeeks(calCurGestationalWeek: GestationalWeeks): Pair<Int, String> {
+        return if (calCurGestationalWeek.week < earlyGestationalWeeksStart.week ||
+            (calCurGestationalWeek.week == earlyGestationalWeeksStart.week && calCurGestationalWeek.day < earlyGestationalWeeksStart.day)
+        ) {
+            Pair(1, "小于早期孕周")
+        } else if (calCurGestationalWeek.week > earlyGestationalWeeksEnd.week ||
+            (calCurGestationalWeek.week == earlyGestationalWeeksEnd.week && calCurGestationalWeek.day > earlyGestationalWeeksEnd.day)
+        ) {
+            Pair(2, "大于早期孕周")
+        } else {
+            Pair(3, "在早期孕周中")
+        }
+    }
+
+    fun isWithinMidtermGestationalWeeks(calCurGestationalWeek: GestationalWeeks): Pair<Int, String> {
+        return if (calCurGestationalWeek.week < midtermGestationalWeeksStart.week ||
+            (calCurGestationalWeek.week == midtermGestationalWeeksStart.week && calCurGestationalWeek.day < midtermGestationalWeeksStart.day)
+        ) {
+            Pair(1, "小于中期孕周")
+        } else if (calCurGestationalWeek.week > midtermGestationalWeeksEnd.week ||
+            (calCurGestationalWeek.week == midtermGestationalWeeksEnd.week && calCurGestationalWeek.day > midtermGestationalWeeksEnd.day)
+        ) {
+            Pair(2, "大于中期孕周")
+        } else {
+            Pair(3, "在中期孕周中")
+        }
+    }
+
+
 }

@@ -2,9 +2,16 @@ package com.anroidz.dsgac
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import com.anroidz.dsgac.algorithm.AuxiliaryAlgorithm
+import com.anroidz.dsgac.algorithm.BPDAlgorithm
+import com.anroidz.dsgac.algorithm.CRLAlgorithm
+import com.anroidz.dsgac.algorithm.IAlgorithm
+import com.anroidz.dsgac.algorithm.ReferenceTableAlgorithm
+import com.anroidz.dsgac.algorithm.utils.TimeUtils
 import com.anroidz.dsgac.base.ResUtil
 import com.anroidz.dsgac.base.VbBaseFragment
 import com.anroidz.dsgac.base.isVisible
@@ -31,6 +38,7 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
     private var gestationalAgeType: GestationalAgeType = GestationalAgeType.BPD
     private var conceiveType: ConceiveType = ConceiveType.NATURE
 
+    private var alg: IAlgorithm = BPDAlgorithm()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,16 +57,23 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                             when (gestationalAgeType) {
                                 GestationalAgeType.BPD -> {
                                     dateTv.text = ResUtil.getString(R.string.bpd_date)
+                                    //切换算法
+                                    alg = BPDAlgorithm()
                                 }
 
                                 GestationalAgeType.CRL -> {
                                     dateTv.text = ResUtil.getString(R.string.crl_date)
+                                    //切换算法
+                                    alg = CRLAlgorithm()
                                 }
                             }
 
                         }
 
                         ConceiveType.AUXILIARY.ordinal -> {
+                            //切换算法
+                            alg = AuxiliaryAlgorithm()
+
                             conceiveType = ConceiveType.AUXILIARY
                             //显示自然受孕UI项
                             gestationalAgeTypeLl.isVisible = false
@@ -108,6 +123,7 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                             Toast.LENGTH_SHORT
                         ).show()
                         selectDialog.text = "${year}-${monthOfYear + 1}-${dayOfMonth}"
+                        alg.setInspectDate(TimeUtils.createDate(year, monthOfYear + 1, dayOfMonth))
                     }, cale1.get(Calendar.YEAR), cale1.get(Calendar.MONTH), cale1.get(Calendar.DAY_OF_MONTH)
                 )
 
@@ -125,6 +141,38 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                         Toast.LENGTH_SHORT
                     ).show()
                     return@setOnClickListener
+                }
+                when (alg) {
+                    is ReferenceTableAlgorithm -> {
+                        if (lenEt.text.toString().isEmpty()) {
+                            Toast.makeText(
+                                requireContext(),
+                                "长度必填",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        }
+                        (alg as ReferenceTableAlgorithm).lenSize = lenEt.text.toString().toInt()
+                        try {
+                            val curGestationalWeek = alg.calCurGestationalWeek()
+                            Log.i(TAG, "curGestationalWeek=$curGestationalWeek")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            return@setOnClickListener
+                        }
+                    }
+
+                    is AuxiliaryAlgorithm -> {
+                        try {
+                            val curGestationalWeek = alg.calCurGestationalWeek()
+                            Log.i(TAG, "curGestationalWeek=$curGestationalWeek")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            return@setOnClickListener
+                        }
+                    }
+
+                    else -> {}
                 }
 
             }

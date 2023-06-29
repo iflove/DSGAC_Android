@@ -125,10 +125,10 @@ object CsvData {
     79,13,6
 """.trimIndent()
 
-    val bpdData by lazy { getBpdData() }
+    val bpdData by lazy { getLazyBpdData() }
 
 
-    private fun getBpdData(): MutableMap<Int, GestationalWeeks> {
+    private fun getLazyBpdData(): MutableMap<Int, GestationalWeeks> {
         val map = linkedMapOf<Int, GestationalWeeks>()
         for (line in bpdCsvData.split("\n")) {
             val item = line.split(",")
@@ -138,10 +138,10 @@ object CsvData {
     }
 
 
-    val crlData by lazy { getCRLData() }
+    val crlData by lazy { getLazyCRLData() }
 
 
-    private fun getCRLData(): MutableMap<Int, GestationalWeeks> {
+    private fun getLazyCRLData(): MutableMap<Int, GestationalWeeks> {
         val map = linkedMapOf<Int, GestationalWeeks>()
         for (line in crlCsvData.split("\n")) {
             val item = line.split(",")

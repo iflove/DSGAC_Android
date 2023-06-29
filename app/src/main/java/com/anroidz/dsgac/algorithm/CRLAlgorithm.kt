@@ -1,6 +1,8 @@
 package com.anroidz.dsgac.algorithm
 
+import com.anroidz.dsgac.algorithm.datasource.CsvData
 import com.anroidz.dsgac.algorithm.model.GestationalWeeks
+import com.anroidz.dsgac.algorithm.utils.TimeUtils
 import java.util.Date
 
 /**
@@ -13,6 +15,15 @@ import java.util.Date
  */
 class CRLAlgorithm : ReferenceTableAlgorithm() {
 
+    override fun calCurGestationalWeek(): GestationalWeeks {
+        if (lenSize == -1) {
+            throw RuntimeException("CRL长度必填")
+        }
+        val gestationalWeeks = CsvData.bpdData[lenSize] ?: throw RuntimeException("CRL长度不合法")
+        val inspectDate = getInspectDate()
+        val curStandardDate = getCurStandardDate()
 
+        return TimeUtils.calCurGestationalWeek(gestationalWeeks, curStandardDate, inspectDate)
+    }
 
 }
