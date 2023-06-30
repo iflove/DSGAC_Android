@@ -16,6 +16,8 @@ class AuxiliaryAlgorithm : CoreAlgorithm() {
         val inspectDate = getInspectDate()
         val curStandardDate = getCurStandardDate()
 
-        return TimeUtils.calCurGestationalWeek(GestationalWeeks(0, 0), curStandardDate, inspectDate)
+        val calCurGestationalWeek = TimeUtils.calCurGestationalWeek(GestationalWeeks(0, 0), curStandardDate, inspectDate)
+
+        return TimeUtils.addDaysToGestationalWeeks(calCurGestationalWeek, 17)
     }
 }

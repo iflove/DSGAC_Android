@@ -184,16 +184,52 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
             val curGestationalWeek = alg.calCurGestationalWeek()
             Log.i(TAG, "curGestationalWeek=$curGestationalWeek")
             sb.append("你当前的孕周为${curGestationalWeek.week}周${curGestationalWeek.day}天\n")
+
+            val startDateText = TimeUtils.formatDate(alg.getCurStandardDate())
+
+            fun earlyStartDateText(): String {
+                val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.earlyGestationalWeeksStart, curGestationalWeek)
+                val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                return TimeUtils.formatDate(calculateGestationalWeekDate)
+            }
+
+            fun earlyEndDateText(): String {
+                val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.earlyGestationalWeeksEnd, curGestationalWeek)
+                val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                return TimeUtils.formatDate(calculateGestationalWeekDate)
+            }
+
+            fun midtermStartDateText(): String {
+                val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.midtermGestationalWeeksStart, curGestationalWeek)
+                val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                return TimeUtils.formatDate(calculateGestationalWeekDate)
+            }
+
+            fun midtermEndDateText(): String {
+                val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.midtermGestationalWeeksEnd, curGestationalWeek)
+                val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
+                return TimeUtils.formatDate(calculateGestationalWeekDate)
+            }
+
             //早期范围检测
             val earlyGestationalWeeks = alg.isWithinEarlyGestationalWeeks(curGestationalWeek)
+            val showEarly = (alg is BPDAlgorithm).not()
+            Log.i(TAG, "你当前的孕周${earlyGestationalWeeks}")
             when (earlyGestationalWeeks.first) {
                 1 -> {
                     //小于早期孕周
-                    sb.append("你当前的孕周${earlyGestationalWeeks.second} \n")
-                    val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.earlyGestationalWeeksStart, curGestationalWeek)
-                    val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
-                    val formatDate = TimeUtils.formatDate(calculateGestationalWeekDate)
-                    sb.append("${TimeUtils.getDiffDays(alg.earlyGestationalWeeksStart, curGestationalWeek)}天后抽血，${formatDate}开始抽血 \n")
+                    if (showEarly) {
+                        sb.append("推荐早期唐氏的采血时间为${earlyStartDateText()}至${earlyEndDateText()} \n")
+                    }
+                    sb.append("推荐中期唐氏的采血时间为${midtermStartDateText()}至${midtermEndDateText()} \n")
+                }
+
+                3 -> {
+                    //在早期孕周中
+                    if (showEarly) {
+                        sb.append("推荐早期唐氏的采血时间为${startDateText}至${earlyEndDateText()} \n")
+                    }
+                    sb.append("推荐中期唐氏的采血时间为${midtermStartDateText()}至${midtermEndDateText()} \n")
                 }
 
                 2 -> {
@@ -202,49 +238,22 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
                     when (midtermGestationalWeeks.first) {
                         1 -> {
                             //小于中期孕周
-                            sb.append("你当前的孕周${earlyGestationalWeeks.second} \n")
-                            val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.midtermGestationalWeeksStart, curGestationalWeek)
-                            val calculateGestationalWeekDate =
-                                TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
-                            val formatDate = TimeUtils.formatDate(calculateGestationalWeekDate)
-                            sb.append(
-                                "${
-                                    TimeUtils.getDiffDays(
-                                        alg.midtermGestationalWeeksStart,
-                                        curGestationalWeek
-                                    )
-                                }天后抽血，${formatDate}开始抽血 \n"
-                            )
+                            sb.append("推荐中期唐氏的采血时间为${midtermStartDateText()}至${midtermEndDateText()} \n")
                         }
 
                         2 -> {
                             //大于中期孕周
-                            sb.append("不在系统可接受的范围内 应为15周0天--20周6天应间的值\n")
                             sb.append("你已不符合检测早孕期唐氏筛查! 已超期\n")
                         }
 
                         3 -> {
                             //在中期孕周中
-                            val startDateText = TimeUtils.formatDate(alg.getCurStandardDate())
-                            val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.midtermGestationalWeeksEnd, curGestationalWeek)
-                            val calculateGestationalWeekDate =
-                                TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
-                            val endDateText = TimeUtils.formatDate(calculateGestationalWeekDate)
-                            sb.append("推荐中期唐氏的采血时间为${startDateText}至${endDateText} \n")
+                            sb.append("推荐中期唐氏的采血时间为${startDateText}至${midtermEndDateText()} \n")
                         }
 
                         else -> {}
                     }
                     //大于早期孕周 (中期)
-                }
-
-                3 -> {
-                    //在早期孕周中
-                    val startDateText = TimeUtils.formatDate(alg.getCurStandardDate())
-                    val calculateWeeksDifference = TimeUtils.calculateWeeksDifference(alg.earlyGestationalWeeksEnd, curGestationalWeek)
-                    val calculateGestationalWeekDate = TimeUtils.calculateGestationalWeekDate(calculateWeeksDifference, alg.getCurStandardDate())
-                    val endDateText = TimeUtils.formatDate(calculateGestationalWeekDate)
-                    sb.append("推荐早期唐氏的采血时间为${startDateText}至${endDateText} \n")
                 }
 
                 else -> {}
