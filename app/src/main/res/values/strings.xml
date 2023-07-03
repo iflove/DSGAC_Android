@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">唐氏筛查孕周计算助手 (信宜市妇幼保健院检验科)</string>
+    <string name="app_name">孕周计算器</string>
+    <string name="logo_app_name">血清学筛查孕周计算助手</string>
     <string name="action_settings">设置</string>
     <string name="please_enter_your_relevant_information">请录入你的相关信息</string>
     <string name="the_way_of_conception">受孕方式：</string>

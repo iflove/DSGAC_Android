@@ -15,7 +15,7 @@ class LogoActivity : AppCompatActivity() {
         val vb = ActivityLogoBinding.inflate(layoutInflater)
         setContentView(vb.root)
         vb.apply {
-            appVersion.text = resources.getString(R.string.app_name)
+            appVersion.text = resources.getString(R.string.logo_app_name)
             appVersion.text = "V${getVersionName()}"
         }
 

@@ -11,7 +11,7 @@
     </string-array>
 
     <string-array name="gestational_age_type">
-        <item>BPD</item>
-        <item>CRL</item>
+        <item>BPD（双顶径）</item>
+        <item>CRL（头臀长）</item>
     </string-array>
 </resources>

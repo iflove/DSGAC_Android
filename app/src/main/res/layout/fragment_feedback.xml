@@ -2,7 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/feedback_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="@dimen/start_end_margin"
+    android:paddingTop="@dimen/top_margin"
+    android:paddingEnd="@dimen/start_end_margin">
 
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:lineSpacingExtra="2dp"
+        android:text="感谢您的使用，为了更好地提供
+
+
+孕期胎儿唐氏综合征筛查通过检测母体血清生化指标和孕期径腹超声检查胎儿综合判断可以同时筛查唐氏综合征、18三体综合征、神经管畸形等。
+21三体综合征，也称唐氏综合征（俗称“弱智儿”），由胎儿21号染色体异常引起的出生缺陷，它与年龄、环境、药物等因素有关，新生儿中发病率为1/800-1/700，具有一定的随机性和偶然性。主要有智力低下、特殊面容、发育迟缓、多发畸形等临床表现。目前还没办法治疗。
+18-三体综合征，由胎儿18号染色体异常引起的出生缺陷，新生儿中发病率为1/5000-1/2000，常伴有多种畸形如先天性心脏病等。
+胎儿神经管缺陷是由于神经管闭锁失败所致，会引起一系列颅脑和脊髓管的畸形，包括无脑儿及脊柱裂等。
+结果建议：
+1. 筛查结果为低风险，表示胎儿为21和18-三体患儿几率小，但仍有可能为21和18-三体患儿。建议孕妇密切留意妊娠状态，注意补充营养，定时产检。
+2. 筛查结果为临界风险或高风险，请到有产前诊断资质的医院进一步遗传咨询以及产前诊断。"
+        android:textSize="14sp" />
 </LinearLayout>
