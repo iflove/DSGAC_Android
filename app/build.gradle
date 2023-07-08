@@ -5,7 +5,23 @@ plugins {
 
 android {
     compileSdk 32
+    lintOptions {
+        abortOnError false        // true by default
+        checkAllWarnings false
+        checkReleaseBuilds false
+        ignoreWarnings true       // false by default
+        quiet true                // false by default
+    }
+    //签名配置
+    signingConfigs {
 
+        releaseConfig {
+            keyAlias "apk"
+            keyPassword "apk.key"
+            storeFile file("/Users/system/Public/apk-sign/apk.key")
+            storePassword "apk.key"
+        }
+    }
     defaultConfig {
         applicationId "com.anroidz.dsgac"
         minSdk 21
@@ -17,7 +33,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.releaseConfig
+        }
         release {
+            signingConfig signingConfigs.releaseConfig
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

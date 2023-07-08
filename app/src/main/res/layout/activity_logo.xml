@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFAEC9"
+    android:background="@color/pink"
     tools:context=".LogoActivity">
 
 
@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:text="唐氏筛查孕周计算助手"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,6 +32,7 @@
         android:id="@+id/appVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginBottom="20dp"
         android:text="V1.0.0"
         android:textSize="12sp"

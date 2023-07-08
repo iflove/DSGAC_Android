@@ -47,6 +47,7 @@ class HomeFragment : VbBaseFragment<FragmentHomeBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         mViewBinding.apply {
+
             //受孕方式
             conceiveTypeSp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

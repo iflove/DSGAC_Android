@@ -27,7 +27,7 @@ class LogoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
             true
-        }.sendEmptyMessageDelayed(1, 500)
+        }.sendEmptyMessageDelayed(1, 1500)
     }
 
     private fun getVersionName(): String? {

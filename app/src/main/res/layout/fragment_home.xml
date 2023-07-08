@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/please_enter_your_relevant_information"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size" />
 
         <LinearLayout
@@ -23,19 +24,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_margin"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textColor="@color/black">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/the_way_of_conception"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/conceive_type_sp"
+                style="@style/CustomSpinnerStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/conceive_type" />
+                android:background="@color/pink"
+                android:dropDownItemStyle="@style/CustomSpinnerDropDownStyle"
+                android:entries="@array/conceive_type"
+                android:popupBackground="@color/brightPink" />
         </LinearLayout>
 
         <LinearLayout
@@ -49,13 +56,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gestational_age_type"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/gestational_age_type_sp"
+                style="@style/CustomSpinnerStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/gestational_age_type" />
+                android:background="@color/pink"
+                android:dropDownItemStyle="@style/CustomSpinnerDropDownStyle"
+                android:entries="@array/gestational_age_type"
+                android:popupBackground="@color/brightPink" />
 
         </LinearLayout>
 
@@ -71,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bpd_date"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -84,6 +97,8 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textSize="@dimen/text_size" />
 
         </LinearLayout>
@@ -100,13 +115,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bpd_len"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/lenEt"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/lenUnit"
@@ -114,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="mm"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
 
@@ -121,7 +139,12 @@
             android:id="@+id/calBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/brightPink"
+            android:paddingStart="100dp"
+            android:paddingEnd="100dp"
             android:text="@string/btn_cal"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size" />
 
         <TextView
@@ -130,6 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="2dp"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_1"
             tools:text="111\n1222" />
 
@@ -145,5 +169,6 @@
         android:layout_marginBottom="15dp"
         android:lineSpacingExtra="2dp"
         android:text="温馨提示：\n1.血清学筛查建议空腹采血4ml并及时分离血清。 \n2.本软件版权归信宜市妇幼保健院检验科所属，如有疑问请致电0668-8839016咨询。"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 </RelativeLayout>

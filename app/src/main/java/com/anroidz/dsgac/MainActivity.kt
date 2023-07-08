@@ -33,6 +33,7 @@ class MainActivity : VbBaseActivity<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
 
         setContentView(mViewBinding.root)
+        mViewBinding.toolbar.setTitle(R.string.logo_app_name)
         setSupportActionBar(mViewBinding.toolbar)
 
         val fragments: MutableList<Fragment> = ArrayList()

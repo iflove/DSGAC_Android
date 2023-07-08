@@ -14,6 +14,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
+        android:textColor="@color/black"
         android:lineSpacingExtra="2dp"
         android:text="感谢您的使用，为了更好地提供
 
